@@ -2,10 +2,9 @@ package com.codurance;
 
 import com.codurance.email.EmailData;
 import com.codurance.email.EmailSender;
-import org.junit.gen5.api.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -16,8 +15,8 @@ public class EmailForMonthAcceptanceTest {
         EmailSender emailSender = mock(EmailSender.class);
         PaymentsRepository paymentsRepository = mock(PaymentsRepository.class);
 
-        ArrayList<Payment> payments = getMockedPaymentsForMonth3And2();
-        when(paymentsRepository.fetchMonths(2,3)).thenReturn(payments);
+        MonthRange monthRange = new MonthRange(2, 3);
+        when(paymentsRepository.fetchMonths(203,monthRange)).thenReturn(getMockedPaymentsForMonth3And2());
 
         UnusualSpendingReport unusualSpendingReport = new UnusualSpendingReport(paymentsRepository,emailSender);
         unusualSpendingReport.sendReport();
