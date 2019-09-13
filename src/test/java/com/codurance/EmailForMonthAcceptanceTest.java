@@ -18,8 +18,9 @@ public class EmailForMonthAcceptanceTest {
         MonthRange monthRange = new MonthRange(2, 3);
         when(paymentsRepository.fetchMonths(203,monthRange)).thenReturn(getMockedPaymentsForMonth3And2());
 
-        UnusualSpendingReport unusualSpendingReport = new UnusualSpendingReport(paymentsRepository,emailSender);
-        unusualSpendingReport.sendReport();
+        OverExpenseParser overExpensesParser = new OverExpenseParser(emailSender);
+        UnusualSpending unusualSpending = new UnusualSpending(paymentsRepository, overExpensesParser);
+        unusualSpending.sendReport();
 
         EmailData emailData = getEmailExpectedData();
         verify(emailSender).send(emailData);
@@ -45,6 +46,7 @@ public class EmailForMonthAcceptanceTest {
                 "Love,\n" +
                 "\n" +
                 "The Credit Card Company");
+
         return emailData;
     }
 
